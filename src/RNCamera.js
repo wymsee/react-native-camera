@@ -395,6 +395,8 @@ export default class Camera extends React.Component<PropsType, StateType> {
     androidRecordAudioPermissionOptions: Rationale,
     notAuthorizedView: PropTypes.element,
     pendingAuthorizationView: PropTypes.element,
+    askForPermissions: PropTypes.bool,
+    authorized: PropTypes.bool,
     captureAudio: PropTypes.bool,
     useCamera2Api: PropTypes.bool,
     playSoundOnCapture: PropTypes.bool,
@@ -441,6 +443,8 @@ export default class Camera extends React.Component<PropsType, StateType> {
         <ActivityIndicator size="small" />
       </View>
     ),
+    askForPermissions: true,
+    authorized: false,
     captureAudio: true,
     useCamera2Api: false,
     playSoundOnCapture: false,
@@ -642,7 +646,13 @@ export default class Camera extends React.Component<PropsType, StateType> {
       permissionDialogMessage,
       androidCameraPermissionOptions,
       androidRecordAudioPermissionOptions,
+      askForPermissions,
+      authorized,
     } = this.props;
+
+    if (!askForPermissions) {
+      return authorized;
+    }
 
     let cameraPermissions = androidCameraPermissionOptions;
     let audioPermissions = androidRecordAudioPermissionOptions;
